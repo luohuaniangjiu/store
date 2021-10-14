@@ -1,0 +1,55 @@
+import random
+def dazhe():
+    num=random.randint(0,14)
+    if 0<=num<10:
+        return 0.9
+    elif 10<=num<13:
+        return 0.5
+    else:
+        return 0
+
+shop=[["戴尔",4999],["电磁炉",299],["A4纸",9.9],["华为p50",5999],
+      ["电车",2999],["电冰箱",3999],["汽车",299999],["小米10",3999],
+      ["炉石传说卡包",648],["steam游戏",84]]
+mycart=[]
+money=int(input('请输入你的余额：'))
+while True:
+    for index,value in enumerate(shop):
+        print(index,"：",value)
+    chose=input('请输入你要选择的商品的编号：')
+    if chose.isdigit():
+        chose=int(chose)
+        if chose>len(shop):
+            print("商店没有你要选择的商品")
+        else:
+            sum=0
+            for i in range(len(mycart)):
+                sum+=mycart[i][1]
+            if money>shop[chose][1]+sum:
+                mycart.append(shop[chose])
+                print('恭喜你加入购物车成功')
+            else:
+                print('对不起，你余额不足以支付该商品')
+    else:
+        s=dazhe()
+        a=random.randint(0,2)
+        sum = 0
+        for i in range(len(mycart)):
+            sum += mycart[i][1]
+        if a==0:
+            money=money-sum*s
+            q='全部商品打折'
+        else:
+            mycart[0][1]=mycart[0][1]*s
+            money=money-sum
+            q=mycart[0][0],'打折'
+        if chose=='q' or chose=='Q':
+            print("结账单")
+            for index,value in enumerate(mycart):
+                print(index,':',value)
+            print('你余额还有：',money)
+            print(s)
+            print(q)
+            break
+        else:
+            print('输入编号非法')
