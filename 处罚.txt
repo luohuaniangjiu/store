@@ -1,0 +1,14 @@
+import random
+list=["陆梓言","郭洪波","方则属","签","千纸鹤","EXO"]
+while True:
+    inex=input('请输入一个数字：（“1”表示开始选人；“2”表示开始生成数字；“q”或者“Q”表示退出）')
+    if inex=="1":
+        ran=random.randint(0,len(list)-1)
+        print('处罚人：',list[ran])
+    elif inex=='2':
+        num=random.randint(0,90)
+        print('处罚了：',num,'遍')
+    elif inex=='q' or inex=='Q':
+        break
+    else:
+        print('别瞎输')
