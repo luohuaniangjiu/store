@@ -1,0 +1,53 @@
+dict={"k1":"v1","k2":"v2","k3":"v3"}
+#请循环遍历出所有的key
+for item in dict:
+    print(item)
+#请循环遍历出所有的value
+for item in dict:
+    print(dict[item])
+#请在字典中增加一个键值对。“k4”：“v4”
+dict["k4"]="v4"
+print(dict)
+
+#info={'苹果':32.8,'香蕉':22,'葡萄':15.5}
+#friuts={'苹果':12.3,'草莓':4.5,'香蕉':6.3,'葡萄':5.8,'橘子':6.4,'樱桃':15.8}
+fruits={'苹果':4,'草莓':13,'香蕉':10}
+fruits2={'葡萄':19,'橘子':12,'樱桃':30}
+#money=4+13+10
+#money2=19+12+30
+#print(money)
+#print(money2)
+fruits['money']=27
+fruits2['money2']=61
+print(fruits)
+print(fruits2)
+
+n=["年龄","性别","编号","任职公司","薪资","部门编号"]
+names=[["刘备","56","男","106","IBM",500,"50"],
+["大乔","19","女","230","微软",501,"60"],
+["小乔","19","女","210","Oracle",600,"60"],
+["张飞","45","男","230","Tencent",700,"10"]
+]
+c={}
+a=0
+while a<4:
+    c[names[a][0]]={}
+    b=0
+    while b<6:
+       c[names[a][0]][n[b]]=names[a][b+1]
+       b+=1
+    print(names[a][0],':',c.get(names[a][0]))
+    a+=1
+
+
+def tongji(a):
+    dict = {}
+    for i in range(len(a)):
+        if a[i] in dict:
+            dict[a[i]]+=1
+        else:
+            dict[a[i]]=1
+    return dict
+
+a=input('请输入一个列表')
+print(tongji(a))
