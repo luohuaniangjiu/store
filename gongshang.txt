@@ -1,0 +1,112 @@
+print('*****************************')
+print('*       中国工商银行          *')
+print('*       账号管理系统          *')
+print('*          V1.0             *')
+print('*****************************')
+print('                             ')
+print('*1.开户                       ')
+print('*2.存钱                       ')
+print('*3.取钱                       ')
+print('*4.转账                       ')
+print('*5.查询                       ')
+print('*6.BYE!                      ')
+print('*****************************')
+import random
+bank={}
+def bank_add(account,name,password,country,province,street,door):
+    if account in bank:
+        return 2
+    elif len(bank)>=100:
+        return 3
+    else:
+        bank[account]={
+            'account':account,
+            'name':name,
+            'password':password,
+            'country':country,
+            'provincce':province,
+            'street':street,
+            'door':door,
+            'moeny':0,
+            'bank_name':"中国工商银行昌平区支行"
+        }
+        return 1
+def adduser():
+    account=str(random.randint(10000000,100000000))
+    name=input('请输入你的姓名：')
+    print('密码为6位数字')
+    password=int(input('请输入你的密码：'))
+    print("请输入你的地址：")
+    country=input('\t\t请输入你的国家：')
+    province=input('\t\t请输入你的省份：')
+    street=input('\t\t请输入你的街道：')
+    door=input('\t\t请输入你的门牌号：')
+    add=bank_add(account,name,password,country,province,street,door)
+    if add==1:
+        return 1
+    elif add==2:
+        return 2
+    elif add==3:
+        return 3
+def save():
+    account=input('请输入你的账号：')
+    save_moeny=int(input('请输入你要存入的金额：'))
+    if account in bank:
+        bank[account]['moeny']+=save_moeny
+        return True
+    else:
+        return False
+def withdraw():
+    account=input('请输入你的账号：')
+    password=int(input('请输入你的密码：'))
+    withdraw_moeny=int(input('请输入你要取出的金额：'))
+    if account in bank:
+        if bank[account]['password']!=password:
+            return 2
+        else:
+            if bank[account]['moeny']>withdraw_moeny:
+                bank[account]['moeny']-=withdraw_moeny
+            else:
+                return 3
+    return 1
+def transfer():
+    account_out=input('请输入你要转出账号：')
+    password_out=int(input('请输入你要转出账号的密码：'))
+    transfer_moeny=int(input('请输入你要转出的金额：'))
+    account_enter=input('请输入你要转入的账号：')
+    if account_out and account_enter in bank:
+        if bank[account_out]['password']==password_out:
+            if bank[account_out]['moeny']>transfer_moeny:
+                bank[account_out]['moeny']-=transfer_moeny
+                bank[account_enter]['moeny']+=transfer_moeny
+            else:
+                return 3
+        return 2
+    return 1
+
+def query():
+    account=input('请输入你要查询的账号：')
+    password=int(input('请输入你要查询的账号密码：'))
+    if account in bank:
+        if bank[account]['password']==password:
+            for key,value in bank[account].items():
+                print(key, ':', value)
+        else:
+            return
+    else:
+        return
+while True:
+    index=int(input('请输入你要进行操作数字：'))
+    if index==1:
+        print(adduser())
+        print(bank)
+    elif index==2:
+        print(save())
+    elif index==3:
+        print(withdraw())
+    elif index==4:
+        print(transfer())
+    elif index==5:
+        print(query())
+    elif index==6:
+        break
