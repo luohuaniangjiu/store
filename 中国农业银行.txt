@@ -1,0 +1,196 @@
+import random
+#创建银行的库
+bank={}
+bank_name='中国农业银行的昌平沙河支行'
+#银行的用户库
+def user_library(account,username,password,country,province,street,door,money):
+    #判断用户库中是否重复
+        if account in bank:
+            return 2
+        #判断用户库是否已满
+        elif len(bank)>=100:
+            return 3
+        #条件都满足
+        else:
+            bank[account]={
+                'account':account,
+                'username':username,
+                'password':password,
+                'country':country,
+                'province':province,
+                'street':street,
+                'door':door,
+                'money':money,
+                'bank_name':bank_name
+            }
+            return 1
+#银行账号的随机
+def account_random():
+    account=random.randint(10000000,100000000)
+    return account
+#指定输入的数据类型
+def appoint(chose,datatype='str'):
+    while True:
+        print('请输入',chose,':')
+        i=input('>>>')
+        if len(i)==0:
+            print('输入的内容不能为空，请重新输入')
+            continue
+        if i.isdigit() is True:
+            return int(i)
+        else:
+            return i
+#用户开户时，用户信息的输入
+def information():
+    username=appoint('你的姓名')
+    password=appoint('你的密码')
+    country=appoint('国家')
+    province=appoint('省份')
+    street=appoint('街道')
+    door=appoint('门牌号')
+    money=appoint('你的余额')
+    add=user_library(account_random(),username,password,country,province,street,door,money)
+    return add
+#打印的模板
+info='''
+        -----------账号信息----------
+        账号:{account}
+        姓名:{username}
+        密码:{password}
+        地址：国家:{country}
+             省份:{province}
+             街道:{street}
+             门牌号:{door}
+        存款余额:{money}
+        开户行:{bank_name}
+'''
+#通过账号查询信息
+def query_information(account):
+    for i in bank.keys():
+        if bank[i]['account']==account:
+            return 1
+    return None
+#银行存钱
+def bank_save(account,money):
+    for i in bank.keys():
+        if bank[i]['account']==account:
+            bank[i]['money']+=money
+        else:
+            return False
+#银行取钱
+def bank_take(account,password,money):
+    for i in bank.keys():
+        if bank[i]['account']==account:
+            if bank[i]['password']!=password:
+                #密码不对
+                return 2
+            else:
+                if bank[i]['money']<money:
+                    #钱不够
+                    return 3
+                else:
+                    bank[i]['money']-=money
+        #账号不存在
+        return 1
+#银行转账
+def transfer(account_out,account_in,password_out,money_out):
+    for i in bank.keys():
+        if bank[i]['account']==account_out:
+            if bank[i]['password']==password_out:
+                if bank[i]['money']>money_out:
+                    bank[i]['money']-=money_out
+                else:
+                    #钱不够
+                    return 3
+            #密码不对
+            return 2
+        #账号不存在
+        return 1
+    for i in bank.keys():
+        if bank[i]['account']==account_in:
+            bank[i]['money']+=money_out
+        else:
+            #账号不存在
+            return 1
+#银行查询
+def query(account,password):
+    if account in bank:
+        if bank[account]['password']==password:
+            print(info.format(account=bank[account]['account'],
+                              username=bank[account]['username'],
+                              password=bank[account]['password'],
+                              country=bank[account]['country'],
+                              province=bank[account]['province'],
+                              street=bank[account]['street'],
+                              door=bank[account]['door'],
+                              money=bank[account]['money'],
+                              bank_name=bank[account]['bank_name']
+            ))
+        else:
+            return False
+    else:
+        return '用户不存在'
+
+#开户
+#infromastion()
+#存钱
+def save_money():
+    account=appoint('用户账号')
+    money=appoint('存款的金额')
+    save=bank_save(account,money)
+    return save
+#取钱
+def take_money():
+    account=appoint('用户的账号')
+    password=appoint('用户的密码')
+    money=appoint('取钱的金额')
+    take=bank_take(account,password,money)
+    return take
+#转账
+def transfer_money():
+    account_out=appoint('转出的账号')
+    account_in=appoint('转入的账号')
+    password=appoint('转出账号的密码')
+    money=appoint('转出的金额')
+    trasfer=transfer(account_out,account_in,password,money)
+    return trasfer
+#查询
+def chaxun():
+    account=appoint('账号')
+    password=appoint('密码')
+    chaxun=query(account,password)
+    return chaxun
+
+print('*****************************')
+print('*       中国农业银行          *')
+print('*       账号管理系统          *')
+print('*****************************')
+print('                             ')
+print('*1.开户                       ')
+print('*2.存钱                       ')
+print('*3.取钱                       ')
+print('*4.转账                       ')
+print('*5.查询                       ')
+print('*6.BYE!                      ')
+print('*****************************')
+
+
+while True:
+    choice=appoint('选项')
+    if choice=='1':
+        print(information())
+        print(bank)
+    elif choice=='2':
+        print(save_money())
+    elif choice=='3':
+        print(take_money())
+    elif choice=='4':
+        print(transfer_money())
+    elif choice=='5':
+        print(chaxun())
+    elif choice=='6':
+        print('此次操作已结束，欢迎下次使用')
+        break
+    else:
+        print('你输入的非法，请重新输入！！')
+        continue
