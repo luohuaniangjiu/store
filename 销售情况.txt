@@ -1,0 +1,194 @@
+import xlrd
+
+#调取excel表
+wb=xlrd.open_workbook_xls(filename=r'C:\Users\吴会千\Desktop\工作\python自动化测式\python\day7\任务\2020年每个月的销售情况.xls',encoding_override=True)
+
+#所有的衣服
+list=['羽绒服','牛仔裤','风衣','皮草','T血','马甲','小西装','衬衫','皮衣','休闲裤','卫衣','铅笔裤','棉衣']
+
+#获取excel表中，所有工作簿的名称
+names=wb.sheet_names()  #遍历出来的列表
+
+#遍历出每个工作簿
+# for i in range(len(names)):
+#     table=wb.sheet_by_name(names[i])
+
+#用角标遍历出每个工作簿
+# for i in range(12):
+#     table=wb.sheet_by_index(i)
+
+#读取工作簿内容
+def sheet(name):
+    sheet=wb.sheet_by_name(name)
+    return sheet
+
+#遍历出有多少行
+def rows(name):
+    rows=sheet(name).nrows
+    return rows
+
+#遍历出有多少列
+def cols(name):
+    cols=sheet(name).ncols
+    return cols
+
+#每个月的销售总额
+def sum_month(name):
+    sum=0
+    for i in range(1,rows(name)):
+        sum+=sheet(name).cell_value(i,2)*sheet(name).cell_value(i,4)
+    return sum
+
+#全年的总销售额
+def sum_year():
+    sum=0
+    for i in range(len(names)):
+        sum+=sum_month(names[i])
+    return sum
+
+#每个月每件衣服的销售额
+def sales_each(clothes,name):
+    sum=0
+    for i in range(1,rows(name)):
+        if sheet(name).cell_value(i,1)==clothes:
+            sum+=sheet(name).cell_value(i,2)*sheet(name).cell_value(i,4)
+    return sum
+
+#每件衣服全年的销售额
+def sales_each_year(clothes):
+    sum=0
+    for i in range(len(names)):
+        sum+=sales_each(clothes,names[i])
+    return sum
+
+#每个月的销售量
+def sales_month(name):
+    sum=0
+    for i in range(1,rows(name)):
+        sum+=sheet(name).cell_value(i,4)
+    return sum
+
+#全年的销售量
+def sales_year():
+    sum = 0
+    for i in range(len(names)):
+        sum += sales_month(names[i])
+    return sum
+
+#每件衣服的每个月的销售量
+def each_month(clothes,name):
+    sum=0
+    for i in range(1,rows(name)):
+        if sheet(name).cell_value(i,1)==clothes:
+            sum+=sheet(name).cell_value(i,4)
+        else:
+            sum=sum
+    return sum
+
+#每件衣服的全年销售量
+def each_year(clothes):
+    sum=0
+    for i in range(len(names)):
+        sum += each_month(clothes,names[i])
+    return sum
+
+#每件衣服的全年销售额占比
+def ratio_each_year(clotshes):
+    ratio_each_year=format(sales_each_year(clotshes)/sum_year(),'.2%')
+    return ratio_each_year
+
+#每件衣服的销售占比
+def ratio(clothes):
+    ratio=format(each_year(clothes)/sales_year(),'.2%')
+    return ratio
+
+#每件衣服的月销售占比
+def ratio_month(clothes,name):
+    ratio_month=format(each_month(clothes,name)/sales_month(name),'.2%')
+    return ratio_month
+
+#每件衣服的月销售额占比
+def ratio_each(clothes,name):
+    ratio_each=format(sales_each(clothes,name)/sales_month(name),'.2%')
+    return ratio_each
+
+#最畅销的衣服时哪种
+def best():
+    i=0
+    j=1
+    while i<13 and j<13:
+        if each_year(list[i])>each_year(list[j]):
+            j+=1
+        else:
+            i=j
+            j+=1
+    return list[i]
+#销售最低
+def least():
+    i=0
+    j=1
+    while i<13 and j<13:
+        if each_year(list[i])<each_year(list[j]):
+            j+=1
+        else:
+            i=j
+            j+=1
+    return list[i]
+print('1，全年销售额')
+print('全年总销售额：',sum_year())
+print('2,每件衣服的销售额占比')
+for i in range(len(list)):
+    num=ratio_each_year(list[i])
+    print(list[i],'占全年销售额',num)
+print('3,一年中，衣服每个月的销售比')
+for i in range(len(names)):
+    for j in range(len(list)):
+        num=ratio_month(list[j],names[i])
+        print(names[i],'中',list[j],'销售占比为：',num,end='  ')
+    print()
+print('4,每件衣服的销售占比')
+for i in range(len(list)):
+    ratio(list[i])
+    print(list[i],'在一年中销售占比为：',ratio(list[i]))
+print('5,最畅销的衣服')
+print('全年销售量最多的是：',best(),'销售了',each_year(best()),'件')
+print('6,畅销最低的衣服')
+print('全年销售量最低的是：',least(),'销售了',each_year(least()),'件')
+
+#每个季度
+def quarter(num):
+    if num==1:
+        quarter=['2月','3月','4月']
+        return quarter
+    elif num==2:
+        quarter=['5月','6月','7月']
+        return quarter
+    elif num==3:
+        quarter=['8月','9月','10月']
+        return quarter
+    elif num==4:
+        quarter=['11月','12月','1月']
+        return quarter
+#每个季度的每个衣服的销售量l
+def sales_quarter(clothes,num):
+    name=quarter(num)
+    sum=0
+    for i in range(3):
+        sum+=each_month(clothes,name[i])
+    return sum
+#哪件衣服在一个季度的畅销量最好
+def sales_best(num):
+    i=0
+    j=1
+    while i<13 and j<13:
+        if sales_quarter(list[i],num)>sales_quarter(list[j],num):
+            j+=1
+        else:
+            i=j
+            j+=1
+    return list[i]
+print('7,全年中，每个季度最畅销的衣服，都有哪个')
+num=[1,2,3,4]
+for i in range(4):
+    clothes=sales_best(num[i])
+    print('第',num[i],'季',clothes,'销量最好')
