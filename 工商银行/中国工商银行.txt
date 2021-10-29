@@ -1,0 +1,160 @@
+print('*****************************')
+print('*       中国工商银行          *')
+print('*       账号管理系统          *')
+print('*          V1.0             *')
+print('*****************************')
+print('                             ')
+print('*1.开户                       ')
+print('*2.存钱                       ')
+print('*3.取钱                       ')
+print('*4.转账                       ')
+print('*5.查询                       ')
+print('*6.BYE!                      ')
+print('*****************************')
+import random
+from dbutils import select
+from dbutils import change
+def bank_add(account, name, password, country, province, street, door):
+    #用户库是否重复
+    sql1 = "select * from bank where account=%s"
+    param1 = [account]
+    data1 = select(sql1, param1)
+    if len(data1) != 0:
+        return 2
+    #用户库是否已满
+    sql2 = "select count(*) from bank"
+    param2 = []
+    data = select(sql2, param2)
+    if len(data) >= 100:
+        return 3
+    #数据库正常添加
+    bank_name = '中国工商银行昌平区支行'
+    money = 0
+    sql3 = "insert into bank values(%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    param3 = [account, name, password, country, province, street, door, money, bank_name]
+    change(sql3, param3)
+    return 1
+def adduser():
+    account = str(random.randint(10000000,100000000))
+    name = input('请输入你的姓名：')
+    print('密码为6位数字')
+    password = int(input('请输入你的密码：'))
+    print("请输入你的地址：")
+    country = input('\t\t请输入你的国家：')
+    province = input('\t\t请输入你的省份：')
+    street = input('\t\t请输入你的街道：')
+    door = input('\t\t请输入你的门牌号：')
+    add = bank_add(account, name, password, country, province, street, door)
+    if add == 1:
+        return 1
+    elif add == 2:
+        return 2
+    elif add == 3:
+        return 3
+def save():
+    account = input('请输入你的账号：')
+    sql = "select * from bank where account=%s"
+    param = account
+    data = select(sql, param)
+    if len(data) != 0:
+        save_money = int(input('请输入你要存入的金额：'))
+        sql1 = "update bank set money=money+%s where account=%s"
+        param1 = [save_money, account]
+        change(sql1, param1)
+        return True
+    else:
+        return False
+def withdraw():
+    account = input('请输入你的账号：')
+    sql = "select * from bank where account=%s"
+    param = [account]
+    data = select(sql, param)
+    if len(data) != 0:
+        password = int(input('请输入你的密码：'))
+        if data[0][2] != password:
+            return 2
+        else:
+            withdraw_money = int(input('请输入你要取出的金额：'))
+            if data[0][7] > withdraw_money:
+                sql1 = "update bank set money=money-%s where account=%s"
+                param1 = [withdraw_money, account]
+                change(sql1, param1)
+            else:
+                return 3
+    return 1
+def transfer():
+    account_out = input('请输入你要转出账号：')
+    sql = "select * from bank where account=%s"
+    param = [account_out]
+    data = select(sql, param)
+    if account_out in data[0]:
+        password_out = int(input('请输入你要转出账号的密码：'))
+        if password_out in data[0]:
+            transfer_money = int(input('请输入你要转出的金额：'))
+            if transfer_money < data[0][7]:
+                account_enter = input('请输入你要转入的账号：')
+                sql1 = "select * from bank where account=%s"
+                param1 = [account_enter]
+                data1 = select(sql1, param1)
+                if account_enter in data1[0]:
+                    sql2 = "update bank set money=money-%s where account=%s "
+                    param2 = [transfer_money, account_out]
+                    change(sql2, param2)
+                    sql3 = "update bank set money=money+%s where account=%s "
+                    param3 = [transfer_money, account_enter]
+                    change(sql3, param3)
+                else:
+                    return 1
+            else:
+                return 3
+        return 2
+    return 1
+
+info = '''
+    \033[0;32;40m
+                {username}的当前个人信息
+                    账号：{account}
+                    密码：{password}
+                    余额：{money}元
+                    用户当前住址：国家：{country}，省份：{province}，街道，{street}，门牌号：{door}
+                    当前开户行：{bank_name}
+    \033[0m
+'''
+def query():
+    account = input('请输入你要查询的账号：')
+    sql = "select * from bank where account=%s"
+    param = [account]
+    data = select(sql, param)
+    if len(data) != 0:
+        password = int(input('请输入你要查询的账号密码：'))
+        if password in data[0]:
+            data1 = data[0]
+            print(info.format(username=data1[1],
+                              account=data1[0],
+                              password=data1[2],
+                              money=data1[7],
+                              country=data1[3],
+                              province=data1[4],
+                              street=data1[5],
+                              door=data1[6],
+                              bank_name=data1[8]))
+        else:
+            return
+    else:
+        return
+while True:
+    index = int(input('请输入你要进行操作数字：'))
+    if index == 1:
+        print(adduser())
+    elif index == 2:
+        print(save())
+    elif index == 3:
+        print(withdraw())
+    elif index == 4:
+        print(transfer())
+    elif index == 5:
+        print(query())
+    elif index == 6:
+        break
+    else:
+        print('你输入的不在业务范畴内')
