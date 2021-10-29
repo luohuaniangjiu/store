@@ -1,0 +1,33 @@
+host='localhost'
+user='root'
+password='root'
+database='中国工商银行'
+import pymysql
+#增，删，改
+def change(sql,param):
+    #连接数据库
+    con=pymysql.connect(host=host,user=user,password=password,database=database)
+    #获取光标完成
+    cursor=con.cursor()
+    #运行sql语句
+    cursor.execute(sql,param)
+    #新增到数据库
+    con.commit()
+    #关闭控制台
+    cursor.close()
+    #关闭数据库
+    con.close()
+
+def select(sql,param,mode="all",size=1):
+    con=pymysql.connect(host=host,user=user,password=password,database=database)
+    corsor=con.cursor()
+    corsor.execute(sql,param)
+    if mode=='one':
+        return corsor.fetchone()
+    elif mode=='all':
+        return corsor.fetchall()
+    elif mode=='many':
+        return corsor.fetchmany(size)
+    con.commit()
+    corsor.close()
+    con.close()
