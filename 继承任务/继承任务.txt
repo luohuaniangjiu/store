@@ -1,0 +1,132 @@
+class oldphone:
+    __username = ""
+    __phone = ""
+    __brand = ""
+    def setusername(self, username):
+        self.__username = username
+    def getusername(self):
+        return self.__username
+    def setphone(self,phone):
+        if phone.startswith("10") or phone.startswith("11") or phone.startswith("12"):
+            print("没有这个号码")
+        elif len(phone) != 11:
+            print("电话号码长度不够")
+        else:
+            self.__phone = phone
+    def getphone(self):
+        return self.__phone
+    def setbrand(self, brand):
+        self.__brand = brand
+    def getbrand(self):
+        return self.__brand
+
+    def dadianhua(self,number):
+        print("正在给",number,"打电话...")
+
+class newphone(oldphone):
+
+    def daphone(self,number):
+        print("语音拨号中...")
+        super().dadianhua(number)
+    def talkme(self):
+        print("品牌为：",self.getbrand(),"的手机很好用")
+
+phone=newphone()
+phone.setbrand("诺基亚")
+phone.setphone("18733222222")
+phone.talkme()
+phone.daphone("15186600322")
+
+class cook:
+    __name = ""
+    __age = 0
+
+    def setname(self,name):
+        self.__name = name
+    def getname(self):
+        return self.__name
+    def setage(self,age):
+        self.__age = age
+    def getage(self):
+        return self.__age
+
+    def rice(self):
+        print("厨师会蒸饭")
+
+class chef(cook):
+
+    def stir(self):
+        print("厨师会炒菜")
+
+class tiny(chef):
+
+    def rice1(self):
+        print("蒸饭")
+
+    def stir1(self):
+        print("炒菜")
+
+cook = tiny()
+cook.setname("张三")
+cook.setage(20)
+
+print(cook.getname())
+print(cook.getage())
+
+cook.rice()
+cook.rice1()
+cook.stir()
+cook.stir1()
+
+class Person:
+    __name = ""
+    __age = 0
+    __sex = ""
+
+    def setname(self,name):
+        if len(name) > 4:
+            print("没有这么长的名字")
+        elif name.isdigit():
+            print("没有全是数字的名字")
+        else:
+            self.__name = name
+    def getname(self):
+        return self.__name
+
+    def setage(self,age):
+        if age < 0 or age >120:
+            print("没有这个年龄的人")
+        else:
+            self.__age = age
+    def getage(self):
+        return self.__age
+
+    def setsex(self,sex):
+        if sex == "男" or sex == "女":
+            self.__sex = sex
+        else:
+            print("没有这种性别的人")
+    def getsex(self):
+        return self.__sex
+
+class Worker(Person):
+
+    def work(self):
+        print("工人干活")
+
+class Student(Person):
+    __number = 0
+
+    def setnumber(self,number):
+        if number < 0:
+            print("本学校没有这样的学号")
+        else:
+            self.__number = number
+    def getnumber(self):
+        return self.__number
+
+    def study(self):
+        print("学生会学习")
+
+    def sing(self):
+        print("学生会唱歌")

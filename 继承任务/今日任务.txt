@@ -1,0 +1,110 @@
+class water_cup:
+    __height=0     #高度
+    __volune=0     #容积
+    __color=""     #颜色
+    __material=""  #材质
+    #输入高度
+    def setheight(self,height):
+        if height>30 or height<0:
+            print("没有这么高的杯子")
+        else:
+            self.__height = height
+    #调取高度
+    def getheight(self):
+       return self.__height
+    #输入容积
+    def setvolune(self,volune):
+        if volune<0 or volune>1000:
+            print("没有这么大容积的杯子")
+        else:
+            self.__volune = volune
+    def getvolune(self):
+        return self.__volune
+    def setcolor(self,color):
+        if color.endswith("色"):
+            self.__color=color
+        else:
+            print("没有这种颜色的杯子")
+    def getcolor(self):
+        return self.__color
+    def setmaterial(self,material):
+        if material == "玻璃" or material == "塑料" or material == "不锈钢":
+            self.__material=material
+        else:
+            print("没有这种材料的杯子")
+    def getmaterial(self):
+        return self.__material
+    #方法：杯子能装水
+    def deposit(self):
+        print(self.__height,"cm的",self.__material,"制作的",self.__color,"杯子能存放",self.__volune,"mL液体")
+#创建实列：杯子
+cup=water_cup()
+
+cup.setheight(20)
+cup.setvolune(400)
+cup.setcolor("黑色")
+cup.setmaterial("不锈钢")
+
+cup.deposit()
+
+class Computer:     #创建的类：电脑
+    __screen=0      #屏幕大小
+    __price=0       #价格
+    __cpu=""        #cup型号
+    __memory=0      #内存大小
+    __standby=0     #待机时长
+
+    def setscreen(self,screen):
+        if screen<10 or screen>20:
+            print("没有这种大小的电脑")
+        else:
+            self.__screen=screen
+    def getscreen(self):
+        return self.__screen
+    def setprice(self,price):
+        if price<3000 or price>200000:
+            print("没有你想要消费价格的电脑")
+        else:
+            self.__price=price
+    def getprice(self):
+        return self.__price
+    def setcpu(self,cpu):
+        if cpu == "英特尔" or cpu == "奔腾4" or cpu == "赛扬D" or cpu == "闪龙":
+            self.__cpu=cpu
+        else:
+            print('没有你所需要的cpu型号的电脑')
+    def getcpu(self):
+        return self.__cpu
+    def setmemory(self,memory):
+        if memory<0 or memory>10:
+            print('没有你所需要的内存大小的电脑')
+        else:
+            self.__memory = memory
+    def getmemory(self):
+        return self.__memory
+    def setstandby(self,standby):
+        if standby<24:
+            print("没有待机时间这么短的电脑")
+        else:
+            self.__standby = standby
+    def getstandby(self):
+        return self.__standby
+
+    def typing(self):
+        print("能打字")
+    def playGames(self):
+        print("能打游戏")
+    def watch(self):
+        print("能看视频")
+
+Notebook=Computer()
+
+Notebook.setscreen(15)
+Notebook.setprice(6000)
+Notebook.setcpu("闪龙")
+Notebook.setmemory(8)
+Notebook.setstandby(30)
+
+Notebook.typing()
+Notebook.playGames()
+Notebook.watch()
