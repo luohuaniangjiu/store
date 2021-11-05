@@ -1,0 +1,85 @@
+from threading import Thread
+import time
+shengchan = 5000
+basket = 0
+cashier = 0
+class Cook(Thread):
+    name = ""
+    number = 0
+    money = 0
+    def run(self) -> None:
+        global basket
+        global shengchan
+        while True:
+            if shengchan >= 0:
+                if basket < 500 :
+                    basket = basket + 1
+                    self.number = self.number + 1
+                    self.money = self.money + 1.5
+                    print("厨师",self.name,"制作了",self.number,"个蛋挞")
+                    shengchan = shengchan - 1
+                else:
+                    print("篮子已满")
+                    time.sleep(3)
+            else:
+                print("厨师",self.name,"挣了",self.money,"钱，制作了",self.number,"个")
+                break
+
+class Customer(Cook):
+    name2 = ""
+    money2 = 3000
+    number2 = 0
+    def run(self) -> None:
+        global basket
+        global cashier
+        global shengchan
+        while True:
+            if self.money2 - 3 >= 0:
+                if shengchan > 0:
+                    if basket > 0:
+                        basket = basket - 1
+                        self.money2 = self.money2 -3
+                        self.number2 = self.number2 +1
+                        cashier = cashier + 1.5
+                        print("篮子中还剩：",basket,"个蛋挞")
+                    else:
+                        print("顾客", self.name2, "一共买了", self.number2, "个蛋挞，还剩余", self.money2, "钱。")
+                        time.sleep(2)
+                else:
+                    print("顾客", self.name2, "一共买了", self.number2, "个蛋挞，还剩余", self.money2, "钱。")
+                    print("收银一共得到", cashier)
+                    break
+            else:
+                print("顾客", self.name2, "一共买了", self.number2, "个蛋挞，还剩余", self.money2, "钱。")
+                print("收银一共得到",cashier)
+                break
+cook1 = Cook()
+cook2 = Cook()
+cook3 = Cook()
+
+name1 = Customer()
+name2 = Customer()
+name3 = Customer()
+name4 = Customer()
+name5 = Customer()
+name6 = Customer()
+
+cook1.name = "张三"
+cook2.name = "李四"
+cook3.name = "王五"
+name1.name2 = "小红"
+name2.name2 = "小蓝"
+name3.name2 = "小绿"
+name4.name2 = "小黑"
+name5.name2 = "小白"
+name6.name2 = "小黄"
+
+cook1.start()
+cook2.start()
+cook3.start()
+name1.start()
+name2.start()
+name3.start()
+name4.start()
+name5.start()
+name6.start()
