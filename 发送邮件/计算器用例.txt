@@ -1,0 +1,123 @@
+from Calc import Calc
+from unittest import TestCase
+
+class TestCalc(TestCase):
+    def testadd(self):
+        a = 1
+        b = 2
+        s = 3
+        calc = Calc()
+        sum = calc.add(a,b)
+        self.assertEqual(s,sum)
+    def testadd2(self):
+        a = 2
+        b = 1
+        s = 3
+        calc = Calc()
+        sum = calc.add(a,b)
+        self.assertEqual(s,sum)
+    def testadd3(self):
+        a = -1
+        b = 2
+        s = 1
+        calc = Calc()
+        sum = calc.add(a,b)
+        self.assertEqual(s,sum)
+    def testadd4(self):
+        a = 1
+        b = -2
+        s = -1
+        calc = Calc()
+        sum = calc.add(a,b)
+        self.assertEqual(s,sum)
+    def testadd5(self):
+        a = -1
+        b = -2
+        s = -3
+        calc = Calc()
+        sum = calc.add(a, b)
+        self.assertEqual(s, sum)
+    def testjian(self):
+        a = 1
+        b = 2
+        s = -1
+        cala = Calc()
+        sum = cala.jian(a,b)
+        self.assertEqual(s,sum)
+    def testjian2(self):
+        a = -1
+        b = -2
+        s = 1
+        cala = Calc()
+        sum = cala.jian(a,b)
+        self.assertEqual(s,sum)
+    def testjian3(self):
+        a = -1
+        b = 2
+        s = -3
+        cala = Calc()
+        sum = cala.jian(a,b)
+        self.assertEqual(s,sum)
+    def testjian4(self):
+        a = 1
+        b = -2
+        s = 3
+        cala = Calc()
+        sum = cala.jian(a,b)
+        self.assertEqual(s,sum)
+    def testcheng(self):
+        a = 1
+        b = 2
+        s = 2
+        calc = Calc()
+        sum = calc.cheng(a,b)
+        self.assertEqual(s,sum)
+    def testcheng2(self):
+        a = -1
+        b = -2
+        s = 2
+        calc = Calc()
+        sum = calc.cheng(a,b)
+        self.assertEqual(s,sum)
+    def testcheng3(self):
+        a = -1
+        b = 2
+        s = -2
+        calc = Calc()
+        sum = calc.cheng(a,b)
+        self.assertEqual(s,sum)
+    def testcheng4(self):
+        a = 1
+        b = -2
+        s = -2
+        calc = Calc()
+        sum = calc.cheng(a,b)
+        self.assertEqual(s,sum)
+    def testchu(self):
+        a = 1
+        b = 2
+        s = 0.5
+        calc = Calc()
+        sum = calc.chu(a,b)
+        self.assertEqual(s,sum)
+    def testchu2(self):
+        a = -1
+        b = 2
+        s = -0.5
+        calc = Calc()
+        sum = calc.chu(a,b)
+        self.assertEqual(s,sum)
+    def testchu3(self):
+        a = -1
+        b = -2
+        s = 0.5
+        calc = Calc()
+        sum = calc.chu(a,b)
+        self.assertEqual(s,sum)
+    def testchu4(self):
+        a = 1
+        b = -2
+        s = -0.5
+        calc = Calc()
+        sum = calc.chu(a,b)
+        self.assertEqual(s,sum)
