@@ -1,0 +1,48 @@
+from 中国工商银行 import bank_transformMoney  # 转账
+from ddt import ddt
+from ddt import data
+from ddt import unpack
+from unittest import TestCase
+from openpyxl import load_workbook
+import openpyxl
+import zmail
+
+# 创建数据
+wb = openpyxl.load_workbook(r"C:\Users\吴会千\Desktop\工作\python自动化测式\python\day14\bank.xlsx")
+'''银行转账'''
+sheet = wb["Sheet1"]
+da = []
+for m in range(2,15):
+    for i in sheet.iter_rows(min_row=m,max_row=m,min_col=1,max_col=5):
+        for j in i:
+            da.append(j.value)
+    da.append(m)
+da_len = int((len(da)/13))
+list_of_group = zip(*(iter(da),)*da_len)
+da = [list(i) for i in list_of_group]
+print(da)
+@ddt
+class Testbank(TestCase):
+
+    @data(*da)
+    @unpack
+    def testtransfornMoney(self,out_account,in_account,out_password,take_money,h,m):
+        valuse = bank_transformMoney(out_account,in_account,out_password,take_money)
+
+        wb1 = wb.active
+        if valuse == h:
+            wb1.cell(m, 6, "通过")
+        else:
+            wb1.cell(m, 6, "不通过")
+        wb.save(r"C:\Users\吴会千\Desktop\工作\python自动化测式\python\day14\bank.xlsx")
+        self.assertEqual(h, valuse)
+'''发送文本邮件，附件是excel表'''
+mail_content = {
+    "subject":"银行测试结果",  #邮件主题
+    "content_text":"银行测试结果",  #邮件内容
+    "attachments":r"C:\Users\吴会千\Desktop\工作\python自动化测式\python\day14\bank.xlsx",    #邮件附件
+}
+#使用你的邮箱账户和密码登录服务器
+server = zmail.server("2082588993@qq.com","qkvstcypamoafahg")
+#发送邮件
+server.send_mail("2082588993@qq.com",mail_content)
