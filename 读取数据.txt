@@ -1,0 +1,10 @@
+data = {}
+f = open(file=r"C:\Users\吴会千\Desktop\工作\python自动化测式\python\day15\baidu_x_system.log", mode="r", encoding="utf-8")
+for line in f.readlines():
+    temp = line.split()
+    if temp[0] in data:
+        data[temp[0]] += 1
+    else:
+        data[temp[0]] = 1
+a = max(data, key=data.get)
+print(a, data[a])
