@@ -1,0 +1,43 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import time
+
+driver = webdriver.Chrome()
+
+driver.get("https://www.bilibili.com/")
+
+driver.maximize_window()
+
+driver.find_element(By.CLASS_NAME, value="unlogin-avatar").click()
+
+driver.switch_to.window(driver.window_handles[1])
+
+driver.find_element("id", "login-username").send_keys("18732286002")
+driver.find_element("id", "login-passwd").send_keys("lanzui5818")
+time.sleep(2)
+driver.find_element(By.XPATH, value="/html/body/div[1]/div/div[2]/div[3]/div[3]/div/div/div/div[5]/a[1]").click()
+
+time.sleep(10)
+driver.switch_to.window(driver.window_handles[1])
+
+driver.find_element(By.CLASS_NAME, value="nav-search-keyword").send_keys("音乐")
+
+driver.find_element(By.XPATH, value="/html/body/div[2]/div/div[1]/div[1]/div/div[2]/div/form/div/button").click()
+
+driver.switch_to.window(driver.window_handles[2])
+
+driver.find_element(By.XPATH, value='/html/body/div[3]/div/div[1]/div[2]/div/div[1]/div[3]/ul/li[2]/a').click()
+time.sleep(5)
+driver.find_element(By.XPATH, value='/html/body/div[3]/div/div[2]/div/ul/li[1]/a/div/div[1]/img').click()
+
+driver.switch_to.window(driver.window_handles[3])
+
+time.sleep(200)
+
+
+driver.find_element(By.XPATH, value='/html/body/div[2]/div[4]/div[1]/div[3]/div[1]/span[1]/i').click()
+
+time.sleep(10)
+
+
+driver.quit()

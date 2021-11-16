@@ -1,0 +1,18 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import time
+
+driver = webdriver.Chrome()
+
+driver.get("https://www.suning.com/")
+driver.maximize_window()
+driver.find_element("id", "searchKeywords").send_keys("雨伞")
+
+driver.find_element("id", "searchSubmit").click()
+time.sleep(2)
+
+driver.find_element(By.XPATH,value="/html/body/div[10]/div/ul/li[1]/div/div/div[1]/div/a/img").click()
+driver.switch_to.window(driver.window_handles[1])
+driver.find_element("id", "addCart").click()
+time.sleep(5)
+driver.quit()
