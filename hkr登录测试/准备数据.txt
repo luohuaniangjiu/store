@@ -1,0 +1,16 @@
+import openpyxl
+
+class Prepare_data:
+	wb = openpyxl.load_workbook(r"C:\Users\吴会千\Desktop\工作\python自动化测式\python自动化\day3\HKR.xlsx")
+    	#获取工作簿
+    	sheet = wb["LOGIN"]
+    	#获取工作簿内容
+    	da = []
+    	for m in range(2, 5):
+        		for i in sheet.iter_rows(min_row=m, max_row=m, min_col=1, max_col=3):
+            			for j in i:
+                		da.append(j.value)
+        		da.append(m)
+    	da_len = int((len(da)/3))
+    	list_of_group = zip(*(iter(da),)*da_len)
+   	 da = [list(i) for i in list_of_group]

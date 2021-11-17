@@ -1,0 +1,57 @@
+from selenium import webdriver
+from ddt import ddt
+from ddt import data
+from ddt import unpack
+from unittest import TestCase
+from 准备数据 import Prepare_data
+from 使用浏览器 import Use_browser
+import openpyxl
+
+
+da = Prepare_data.da
+
+@ddt
+class TestLogin(TestCase):
+
+    def setUp(self) -> None:
+
+        self.driver = webdriver.Chrome()
+        self.driver.get("http:/localhost:8080/HKR")
+        self.driver.maximize_window()
+
+    def tearDown(self) -> None:
+
+        self.driver.quit()
+    @data(*da)
+    @unpack
+    def testLogin(self, username, password, expected, row):
+
+        login = Use_browser(self.driver)
+
+        login.login(username, password)
+
+        if expected == "Student Login":
+            value = login.getLoginSUccess()
+            wb = openpyxl.load_workbook(r"C:\Users\吴会千\Desktop\工作\python自动化测式\python自动化\day3\HKR.xlsx")
+            sheet = wb["LOGIN"]
+            if value == expected:
+                sheet.cell(row, 4, "通过")
+            else:
+                sheet.cell(row, 4, "不通过")
+
+            wb.save(r"C:\Users\吴会千\Desktop\工作\python自动化测式\python自动化\day3\HKR.xlsx")
+
+            self.assertEqual(value, expected)
+
+        else:
+            value = login.getLogonError()
+            wb = openpyxl.load_workbook(r"C:\Users\吴会千\Desktop\工作\python自动化测式\python自动化\day3\HKR.xlsx")
+            sheet = wb["LOGIN"]
+            if value == expected:
+                sheet.cell(row, 4, "通过")
+            else:
+                sheet.cell(row, 4, "不通过")
+
+            wb.save(r"C:\Users\吴会千\Desktop\工作\python自动化测式\python自动化\day3\HKR.xlsx")
+
+            self.assertEqual(value, expected)

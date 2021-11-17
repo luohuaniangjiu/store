@@ -1,0 +1,25 @@
+from HTMLTestRunner import HTMLTestRunner
+import unittest
+import os
+import zmail
+
+test = unittest.defaultTestLoader.discover(os.getcwd(),pattern="test*.py")
+
+runner = HTMLTestRunner.HTMLTestRunner(
+    title="HKR测试报告",
+    description="HKR登录测试报告",
+    verbosity=1,
+    stream=open(file="hkr.html", mode="w+", encoding="utf-8")
+)
+
+runner.run(test)
+
+mail_content = {
+    "Subject":"HKR测试报告",
+    "content_text":"HKR登录测试报告",
+    "attachments":r"D:\pythoncode\demo\python——自动化\day3\hkr.html"
+}
+
+server = zmail.server("2082588993@qq.com", "qkvstcypamoafahg")
+
+server.send_mail("2082588993@qq.com",mail_content)
